@@ -150,7 +150,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   list="github-accounts"
                   value={formData.githubAccount}
                   onChange={e => setFormData({ ...formData, githubAccount: e.target.value })}
-                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all placeholder:text-[var(--text-muted)]/50"
                   placeholder="Selecciona o escribe un correo..."
                 />
                 <datalist id="github-accounts">
@@ -166,7 +166,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   required
                   value={formData.githubRepoUrl}
                   onChange={e => setFormData({ ...formData, githubRepoUrl: e.target.value })}
-                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all placeholder:text-[var(--text-muted)]/50"
                   placeholder="https://github.com/..."
                 />
               </InputGroup>
@@ -256,7 +256,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
           <div className="pt-6 border-t border-[var(--border-subtle)] flex justify-end gap-3 items-center">
             <div className="flex items-center gap-4 mr-auto p-2 px-4 bg-[var(--bg-app)] rounded-2xl border border-[var(--border-subtle)]">
               <div className="flex flex-col">
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estado de Identidad</span>
+                <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-1">Estado de Identidad</span>
                 <div className="flex items-center gap-3">
                   <div className={`w-3 h-3 rounded-full shadow-sm animate-pulse ${
                     formData.status === 'Activo' ? 'bg-green-500 shadow-green-200' : 
@@ -266,11 +266,11 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   <select
                     value={formData.status}
                     onChange={e => setFormData({ ...formData, status: e.target.value as any })}
-                    className="bg-transparent border-none p-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest focus:ring-0 cursor-pointer"
+                    className="bg-transparent border-none p-0 text-[11px] font-bold text-[var(--text-main)] uppercase tracking-widest focus:ring-0 cursor-pointer"
                   >
-                    <option value="Activo">Activo</option>
-                    <option value="Pausado">Pausado</option>
-                    <option value="Inactivo">Inactivo</option>
+                    <option value="Activo" className="bg-[var(--bg-card)]">Activo</option>
+                    <option value="Pausado" className="bg-[var(--bg-card)]">Pausado</option>
+                    <option value="Inactivo" className="bg-[var(--bg-card)]">Inactivo</option>
                   </select>
                 </div>
               </div>
