@@ -27,12 +27,13 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ projects, onAddProject, onEditProject }: DashboardProps) {
-  const [filter, setFilter] = useState<'All' | 'Clientes' | 'Interno' | 'Demo' | 'Personal'>('All');
+  const [filter, setFilter] = useState<string>('Todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const filteredProjects = projects.filter(p => {
-    const matchesFilter = filter === 'All' || p.classification === filter;
+    const projectClass = p.classification || 'Personal';
+    const matchesFilter = filter === 'Todos' || projectClass.toLowerCase() === filter.toLowerCase();
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
@@ -68,7 +69,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
         </div>
 
         <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl overflow-x-auto max-w-full">
-          {(['All', 'Clientes', 'Interno', 'Demo', 'Personal'] as const).map((f) => (
+          {(['Todos', 'Clientes', 'Interno', 'Demo', 'Personal']).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -78,7 +79,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              {f === 'All' ? 'Todos' : f}
+              {f}
             </button>
           ))}
         </div>
