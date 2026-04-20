@@ -24,6 +24,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
 
+console.log('🚀 SERVIDOR NEXATECH INICIADO - VERSIÓN CON SOPORTE DE IMÁGENES');
+
 // Data Mapping Utilities
 const projectToDB = (p: any) => ({
   id: p.id,
