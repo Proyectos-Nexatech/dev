@@ -43,8 +43,8 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
       {/* Hero Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-10">
         <div className="space-y-1">
-          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">Panel de Control</h1>
-          <p className="text-slate-500 font-medium">Gestiona las identidades de tus proyectos en un solo lugar.</p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-[var(--text-main)]">Panel de Control</h1>
+          <p className="text-[var(--text-muted)] font-medium">Gestiona las identidades de tus proyectos en un solo lugar.</p>
         </div>
         <button 
           onClick={onAddProject}
@@ -56,27 +56,27 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
       </div>
 
       {/* Control Bar */}
-      <div className="bg-white p-2 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 w-full md:w-auto px-4 border-r border-slate-100 mr-2">
-          <Search className="w-4 h-4 text-slate-400" />
+      <div className="bg-[var(--bg-card)] p-2 rounded-2xl shadow-sm border border-[var(--border-subtle)] flex flex-col md:flex-row items-center justify-between gap-4 transition-colors">
+        <div className="flex items-center gap-2 w-full md:w-auto px-4 border-r border-[var(--border-subtle)] mr-2">
+          <Search className="w-4 h-4 text-[var(--text-muted)]" />
           <input 
             type="text" 
             placeholder="Buscar recursos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-transparent border-none focus:ring-0 text-sm w-full md:w-64 placeholder:text-slate-400"
+            className="bg-transparent border-none focus:ring-0 text-sm w-full md:w-64 placeholder:text-[var(--text-muted)] text-[var(--text-main)]"
           />
         </div>
 
-        <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1 bg-[var(--bg-app)] p-1 rounded-xl overflow-x-auto max-w-full border border-[var(--border-subtle)]">
           {(['Todos', 'Clientes', 'Interno', 'Demo', 'Personal']).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${
                 filter === f 
-                  ? 'bg-white text-indigo-600 shadow-sm' 
-                  : 'text-slate-500 hover:text-slate-700'
+                  ? 'bg-[var(--bg-card)] text-indigo-500 shadow-sm' 
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
               }`}
             >
               {f}
@@ -84,16 +84,16 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
           ))}
         </div>
 
-        <div className="flex items-center gap-1 border-l border-slate-100 pl-4 ml-2">
+        <div className="flex items-center gap-1 border-l border-[var(--border-subtle)] pl-4 ml-2">
             <button 
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-slate-100 text-slate-900' : 'text-slate-400'}`}
+              className={`p-2 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-[var(--bg-app)] text-[var(--text-main)]' : 'text-[var(--text-muted)]'}`}
             >
               <LayoutGrid className="w-5 h-5" />
             </button>
             <button 
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-xl transition-all ${viewMode === 'list' ? 'bg-slate-100 text-slate-900' : 'text-slate-400'}`}
+              className={`p-2 rounded-xl transition-all ${viewMode === 'list' ? 'bg-[var(--bg-app)] text-[var(--text-main)]' : 'text-[var(--text-muted)]'}`}
             >
               <List className="w-5 h-5" />
             </button>
@@ -180,10 +180,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 border border-slate-50 transition-all duration-500 flex flex-col"
+      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col"
       onClick={onEdit}
     >
-      <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-48 w-full overflow-hidden bg-[var(--bg-app)]">
         {project.imageUrl ? (
           <>
             <img 
@@ -194,20 +194,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </>
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 text-slate-300">
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[var(--bg-app)] to-[var(--bg-card)] text-[var(--text-muted)]">
             <LayoutGrid className="w-12 h-12 mb-2 opacity-20" />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">Sin Vista Previa</span>
           </div>
         )}
         
         {/* Floating status indicator over image */}
-        <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-sm flex items-center gap-2 border border-white/20">
+        <div className="absolute top-4 right-4 px-3 py-1.5 bg-[var(--bg-card)]/90 backdrop-blur-md rounded-full shadow-sm flex items-center gap-2 border border-white/10">
           <div className={`w-1.5 h-1.5 rounded-full ${
             project.status === 'Activo' ? 'bg-green-500' : 
             project.status === 'Pausado' ? 'bg-yellow-500' : 
             'bg-red-500'
           }`} />
-          <span className="text-[9px] font-bold text-slate-600 uppercase tracking-wider">{project.status}</span>
+          <span className="text-[9px] font-bold text-[var(--text-main)] uppercase tracking-wider">{project.status}</span>
         </div>
       </div>
 
@@ -224,33 +224,33 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
                 {project.classification}
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{project.name}</h3>
+            <h3 className="text-2xl font-bold text-[var(--text-main)] group-hover:text-indigo-500 transition-colors">{project.name}</h3>
           </div>
           <button 
             onClick={(e) => { e.stopPropagation(); onEdit(); }}
-            className="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+            className="p-2 bg-[var(--bg-app)] rounded-xl text-[var(--text-muted)] hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
           >
             <MoreHorizontal className="w-5 h-5" />
           </button>
         </div>
 
         <div className="space-y-4">
-          <p className="text-xs text-slate-400 font-medium tracking-wide uppercase">Stack Conectado</p>
+          <p className="text-xs text-[var(--text-muted)] font-medium tracking-wide uppercase">Stack Conectado</p>
           <div className="flex flex-wrap gap-2">
-             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors" onClick={e => e.stopPropagation()}>
+             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors" onClick={e => e.stopPropagation()}>
                 <Github className="w-4 h-4" />
                 <span className="text-xs font-semibold">Repositorio</span>
              </a>
              {project.vercelAccount && (
-               <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
+               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)]">
                  <Zap className="w-4 h-4 text-orange-400" />
                  <span className="text-xs font-semibold">Vercel</span>
                </div>
              )}
              {project.supabaseProject && (
-               <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
+               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)]">
                  <Database className="w-4 h-4 text-emerald-400" />
-                 <span className="text-xs font-semibold">Base de Datos</span>
+                 <span className="text-xs font-semibold">DB</span>
                </div>
              )}
           </div>

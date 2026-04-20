@@ -9,7 +9,7 @@ import Dashboard from './components/Dashboard';
 import ProjectModal from './components/ProjectModal';
 import MasterKeyModal from './components/MasterKeyModal';
 import { Project } from './types';
-import { Fingerprint, Database, Shield, Lock } from 'lucide-react';
+import { Fingerprint, Database, Shield, Lock, Sun, Moon } from 'lucide-react';
 
 // Firebase imports will be added after setup
 // import { auth, db } from './firebase'; 
@@ -20,6 +20,10 @@ export default function App() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [masterKey, setMasterKey] = useState<string | null>(localStorage.getItem('master_key'));
   const [activeModal, setActiveModal] = useState<Partial<Project> | 'new' | null>(null);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    const saved = localStorage.getItem('theme');
+    return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  });
 
   useEffect(() => {
     // Check local session
@@ -29,6 +33,16 @@ export default function App() {
     }
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   useEffect(() => {
     if (user) {
@@ -107,24 +121,32 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen pb-20 bg-slate-50">
+    <div className={`min-h-screen pb-20 transition-colors duration-300`}>
       {/* Top Navbar */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-8 py-4 flex justify-between items-center">
+      <nav className="bg-[var(--glass-bg)] backdrop-blur-md border-b border-[var(--border-subtle)] sticky top-0 z-40 px-8 py-4 flex justify-between items-center transition-colors">
         <div className="flex items-center gap-3">
-          <div className="p-1 px-3 bg-white rounded-lg shadow-sm border border-slate-50">
-             <img src="/logo.png" alt="Logo Nexatech" className="h-8 w-auto object-contain" />
+          <div className="p-1 px-3 bg-[var(--bg-card)] rounded-lg shadow-sm border border-[var(--border-subtle)]">
+             <img src="/logo.png" alt="Logo Nexatech" className={`h-8 w-auto object-contain ${isDark ? 'brightness-0 invert' : ''}`} />
           </div>
-          <span className="font-bold text-slate-900 tracking-tight text-xl">Proyectos Nexatech</span>
+          <span className="font-bold text-[var(--text-main)] tracking-tight text-xl">Proyectos Nexatech</span>
         </div>
         
         <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-2 px-4 py-1.5 bg-green-50 rounded-full">
+          <button
+            onClick={() => setIsDark(!isDark)}
+            className="p-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-main)] hover:text-indigo-500 transition-all shadow-sm active:scale-95"
+            title={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {isDark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+          </button>
+
+          <div className="hidden md:flex items-center gap-2 px-4 py-1.5 bg-green-500/10 rounded-full">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-bold text-green-700 uppercase tracking-widest leading-none">Nodo Interno Activo</span>
+            <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest leading-none">Nodo Interno Activo</span>
           </div>
           <button 
             onClick={handleLogout}
-            className="text-xs font-bold text-slate-400 hover:text-red-500 transition-colors"
+            className="text-xs font-bold text-[var(--text-muted)] hover:text-red-500 transition-colors"
           >
             Cerrar Sesión
           </button>
@@ -151,13 +173,13 @@ export default function App() {
       )}
 
       {/* Status Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-100 py-3 px-8 flex justify-between items-center font-medium text-[10px] text-slate-400 uppercase tracking-widest z-50">
+      <div className="fixed bottom-0 left-0 w-full bg-[var(--bg-card)] border-t border-[var(--border-subtle)] py-3 px-8 flex justify-between items-center font-medium text-[10px] text-[var(--text-muted)] uppercase tracking-widest z-50">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Nexa OS v2.4.0</span>
-          <span className="flex items-center gap-2"><Lock className="w-3.5 h-3.5" /> Bóveda AES-256 Activa</span>
+          <span className="flex items-center gap-2"><Lock className="w-3.5 h-3.5 text-[var(--text-muted)]" /> Bóveda AES-256 Activa</span>
         </div>
         <div className="flex items-center gap-2">
-          Operador: <span className="text-slate-900 font-bold">{user.email}</span>
+          Operador: <span className="text-[var(--text-main)] font-bold">{user.email}</span>
         </div>
       </div>
     </div>

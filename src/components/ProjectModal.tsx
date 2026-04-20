@@ -99,19 +99,19 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden"
+        className="bg-[var(--bg-card)] w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden border border-[var(--border-subtle)]"
       >
-        <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+        <div className="p-8 border-b border-[var(--border-subtle)] flex justify-between items-center bg-[var(--bg-app)]/50">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-100">
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-500/20">
               <Key className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">{project?.id ? 'Editar Identidad' : 'Nueva Entrada de Identidad'}</h2>
-              <p className="text-sm text-slate-500 font-medium">Configura los metadatos del proyecto y los secretos de la bóveda.</p>
+              <h2 className="text-xl font-bold text-[var(--text-main)]">{project?.id ? 'Editar Identidad' : 'Nueva Entrada de Identidad'}</h2>
+              <p className="text-sm text-[var(--text-muted)] font-medium">Configura los metadatos del proyecto y los secretos de la bóveda.</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 bg-white rounded-xl text-slate-400 hover:text-slate-900 transition-all shadow-sm">
+          <button onClick={onClose} className="p-2 bg-[var(--bg-card)] rounded-xl text-[var(--text-muted)] hover:text-[var(--text-main)] transition-all shadow-sm border border-[var(--border-subtle)]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -125,7 +125,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   required
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all placeholder:text-[var(--text-muted)]/50"
                   placeholder="ej. Nexa Core API"
                 />
               </InputGroup>
@@ -135,7 +135,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   required
                   value={formData.classification}
                   onChange={e => setFormData({ ...formData, classification: e.target.value as any })}
-                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all cursor-pointer"
+                  className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all cursor-pointer"
                 >
                   <option value="Clientes">Clientes</option>
                   <option value="Interno">Interno</option>
@@ -204,13 +204,13 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                     <input
                       value={formData.vercelAccount}
                       onChange={e => setFormData({ ...formData, vercelAccount: e.target.value })}
-                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                      className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all placeholder:text-[var(--text-muted)]/50"
                       placeholder="Enlace Público de Vercel"
                     />
                     <input
                       value={formData.supabaseProject}
                       onChange={e => setFormData({ ...formData, supabaseProject: e.target.value })}
-                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                      className="w-full bg-[var(--bg-app)] border border-[var(--border-subtle)] text-[var(--text-main)] rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all placeholder:text-[var(--text-muted)]/50"
                       placeholder="Correo de Supabase (Cuenta)"
                     />
                   </div>
@@ -253,8 +253,8 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-50 flex justify-end gap-3 items-center">
-            <div className="flex items-center gap-4 mr-auto p-2 px-4 bg-slate-50 rounded-2xl border border-slate-100/50">
+          <div className="pt-6 border-t border-[var(--border-subtle)] flex justify-end gap-3 items-center">
+            <div className="flex items-center gap-4 mr-auto p-2 px-4 bg-[var(--bg-app)] rounded-2xl border border-[var(--border-subtle)]">
               <div className="flex flex-col">
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estado de Identidad</span>
                 <div className="flex items-center gap-3">
@@ -278,7 +278,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors"
+              className="px-6 py-3 text-sm font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
             >
               Descartar
             </button>
@@ -298,7 +298,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
 function InputGroup({ label, children }: { label: string, children: React.ReactNode }) {
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">{label}</label>
+      <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest pl-1">{label}</label>
       {children}
     </div>
   );

@@ -7,13 +7,38 @@
   --accent-foreground: #ffffff;
 }
 
+:root {
+  --bg-app: #f8fafc; /* slate-50 */
+  --bg-card: #ffffff;
+  --text-main: #0f172a; /* slate-900 */
+  --text-muted: #64748b; /* slate-500 */
+  --border-subtle: #f1f5f9; /* slate-100 */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 1);
+}
+
+.dark {
+  --bg-app: #020617; /* slate-950 */
+  --bg-card: #0f172a; /* slate-900 */
+  --text-main: #f8fafc; /* slate-50 */
+  --text-muted: #94a3b8; /* slate-400 */
+  --border-subtle: #1e293b; /* slate-800 */
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans;
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    @apply font-sans transition-colors duration-300;
   }
 }
 
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white shadow-sm;
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  @apply shadow-sm;
 }
 
