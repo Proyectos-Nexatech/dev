@@ -8,6 +8,7 @@ import { X, Shield, Lock, Eye, EyeOff, Key } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Project, DecryptedCredentials } from '../types';
 import { encryptData, decryptData } from '../lib/encryption';
+import { supabase } from '../lib/supabase';
 
 interface ProjectModalProps {
   project: Partial<Project> | null;
@@ -18,6 +19,7 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, projects, masterKey, onClose, onSave }: ProjectModalProps) {
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState<Partial<Project>>({
     name: '',
     githubAccount: '',
@@ -26,6 +28,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
     supabaseProject: '',
     classification: 'Personal',
     status: 'Activo',
+    imageUrl: '',
     ...(project || {})
   });
 
@@ -39,6 +42,35 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
   });
 
   const [showCreds, setShowCreds] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true);
+      if (!e.target.files || e.target.files.length === 0) return;
+      
+      const file = e.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('project-images')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('project-images')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, imageUrl: publicUrl });
+    } catch (error) {
+      console.error('Error subiendo imagen:', error);
+      alert('Error al subir la imagen. Asegúrate de tener el bucket "project-images" configurado como público.');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (project?.credentials && masterKey) {
@@ -140,13 +172,28 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
               </InputGroup>
 
               <InputGroup label="Imagen del Proyecto (Vista Previa)">
-                <input
-                  type="url"
-                  value={formData.imageUrl}
-                  onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
-                  placeholder="https://images.unsplash.com/..."
-                />
+                <div className="space-y-4">
+                  {formData.imageUrl && (
+                    <div className="relative w-full h-32 rounded-xl overflow-hidden group">
+                      <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
+                      <button 
+                        type="button"
+                        onClick={() => setFormData({ ...formData, imageUrl: '' })}
+                        className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-bold"
+                      >
+                        Eliminar Imagen
+                      </button>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100 cursor-pointer"
+                  />
+                  {uploading && <div className="text-[10px] font-bold text-indigo-500 uppercase animate-pulse">Subiendo imagen...</div>}
+                </div>
               </InputGroup>
             </div>
 
