@@ -34,21 +34,24 @@ const projectToDB = (p: any) => ({
   updated_at: new Date().toISOString()
 });
 
-const dbToProject = (p: any) => ({
-  id: p.id,
-  name: p.name,
-  githubAccount: p.github_account,
-  githubRepoUrl: p.github_repo_url,
-  vercelAccount: p.vercel_account,
-  supabaseProject: p.supabase_project,
-  classification: p.classification,
-  credentials: p.credentials,
-  status: p.status,
-  imageUrl: p.image_url,
-  ownerId: p.owner_id,
-  createdAt: p.created_at,
-  updatedAt: p.updated_at
-});
+const dbToProject = (p: any) => {
+  console.log('API Mapping:', p.name, 'image_url:', p.image_url);
+  return {
+    id: p.id,
+    name: p.name,
+    githubAccount: p.github_account,
+    githubRepoUrl: p.github_repo_url,
+    vercelAccount: p.vercel_account,
+    supabaseProject: p.supabase_project,
+    classification: p.classification,
+    credentials: p.credentials,
+    status: p.status,
+    imageUrl: p.image_url,
+    ownerId: p.owner_id,
+    createdAt: p.created_at,
+    updatedAt: p.updated_at
+  };
+};
 
 // API Routes
 app.get('/api/projects', async (req, res) => {
