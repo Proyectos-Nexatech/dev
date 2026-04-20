@@ -48,7 +48,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
         </div>
         <button 
           onClick={onAddProject}
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-95"
+          className="inline-flex items-center gap-2 bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 rounded-2xl font-bold hover:brightness-110 transition-all shadow-lg shadow-yellow-500/10 active:scale-95"
         >
           <Plus className="w-5 h-5" />
           Agregar Proyecto
@@ -75,7 +75,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
               onClick={() => setFilter(f)}
               className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap ${
                 filter === f 
-                  ? 'bg-[var(--bg-card)] text-indigo-500 shadow-sm' 
+                  ? 'bg-[var(--accent)] text-[var(--accent-foreground)] shadow-sm' 
                   : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
               }`}
             >
@@ -180,7 +180,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col"
+      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-yellow-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col"
       onClick={onEdit}
     >
       <div className="relative h-48 w-full overflow-hidden bg-[var(--bg-app)]">
@@ -224,11 +224,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
                 {project.classification}
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-[var(--text-main)] group-hover:text-indigo-500 transition-colors">{project.name}</h3>
+            <h3 className="text-2xl font-bold text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors">{project.name}</h3>
           </div>
           <button 
             onClick={(e) => { e.stopPropagation(); onEdit(); }}
-            className="p-2 bg-[var(--bg-app)] rounded-xl text-[var(--text-muted)] hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+            className="p-2 bg-[var(--bg-app)] rounded-xl text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-all"
           >
             <MoreHorizontal className="w-5 h-5" />
           </button>

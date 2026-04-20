@@ -42,7 +42,7 @@ export default function Auth({ onLogin }: AuthProps) {
           <div className="space-y-4">
             <button 
               onClick={onLogin}
-              className="w-full flex items-center justify-center gap-3 bg-indigo-600 text-white py-4 rounded-2xl font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-3 bg-[var(--accent)] text-[var(--accent-foreground)] py-4 rounded-2xl font-bold hover:brightness-110 transition-all shadow-lg shadow-yellow-500/10 active:scale-[0.98]"
             >
               Iniciar sesión con Google
               <ArrowRight className="w-4 h-4" />

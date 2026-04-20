@@ -175,7 +175,7 @@ export default function App() {
       {/* Status Bar */}
       <div className="fixed bottom-0 left-0 w-full bg-[var(--bg-card)] border-t border-[var(--border-subtle)] py-3 px-8 flex justify-between items-center font-medium text-[10px] text-[var(--text-muted)] uppercase tracking-widest z-50">
         <div className="flex items-center gap-6">
-          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Nexa OS v2.4.0</span>
+          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full" /> Nexa OS v2.4.0</span>
           <span className="flex items-center gap-2"><Lock className="w-3.5 h-3.5 text-[var(--text-muted)]" /> Bóveda AES-256 Activa</span>
         </div>
         <div className="flex items-center gap-2">

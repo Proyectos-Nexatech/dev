@@ -31,7 +31,7 @@ export default function MasterKeyModal({ onConfirm }: MasterKeyModalProps) {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         className="max-w-md w-full p-10 bg-[var(--bg-card)] rounded-[40px] shadow-2xl flex flex-col items-center text-center space-y-8 border border-[var(--border-subtle)] transition-colors"
       >
-        <div className="w-20 h-20 bg-indigo-600 rounded-[24px] shadow-xl shadow-indigo-200 flex items-center justify-center -mt-20 text-white transform rotate-6 hover:rotate-0 transition-transform duration-500">
+        <div className="w-20 h-20 bg-[var(--accent)] rounded-[24px] shadow-xl shadow-yellow-500/20 flex items-center justify-center -mt-20 text-[var(--accent-foreground)] transform rotate-6 hover:rotate-0 transition-transform duration-500">
           <Lock className="w-10 h-10" />
         </div>
         
@@ -69,7 +69,7 @@ export default function MasterKeyModal({ onConfirm }: MasterKeyModalProps) {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-5 rounded-2xl flex items-center justify-center gap-3 font-bold text-sm shadow-xl shadow-indigo-100 group transition-all hover:bg-indigo-700 active:scale-95"
+            className="w-full bg-[var(--accent)] text-[var(--accent-foreground)] py-5 rounded-2xl flex items-center justify-center gap-3 font-bold text-sm shadow-xl shadow-yellow-500/10 group transition-all hover:brightness-110 active:scale-95"
           >
             Desbloquear Archivos
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

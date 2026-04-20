@@ -103,7 +103,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
       >
         <div className="p-8 border-b border-[var(--border-subtle)] flex justify-between items-center bg-[var(--bg-app)]/50">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-500/20">
+            <div className="p-3 bg-[var(--accent)] rounded-2xl text-[var(--accent-foreground)] shadow-lg shadow-yellow-500/20">
               <Key className="w-5 h-5" />
             </div>
             <div>
@@ -284,7 +284,7 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
             </button>
             <button
               type="submit"
-              className="px-10 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95"
+              className="px-10 py-3 bg-[var(--accent)] text-[var(--accent-foreground)] rounded-2xl font-bold shadow-lg shadow-yellow-500/10 hover:brightness-110 transition-all active:scale-95"
             >
               Confirmar Cambios
             </button>
