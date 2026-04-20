@@ -29,6 +29,7 @@ const projectToDB = (p: any) => ({
   classification: p.classification,
   credentials: p.credentials,
   status: p.status,
+  image_url: p.imageUrl,
   owner_id: p.ownerId,
   updated_at: new Date().toISOString()
 });
@@ -43,6 +44,7 @@ const dbToProject = (p: any) => ({
   classification: p.classification,
   credentials: p.credentials,
   status: p.status,
+  imageUrl: p.image_url,
   ownerId: p.owner_id,
   createdAt: p.created_at,
   updatedAt: p.updated_at

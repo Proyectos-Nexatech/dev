@@ -179,68 +179,81 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-[32px] p-8 space-y-8 relative overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 border border-slate-50 transition-all duration-500"
+      className="bg-white rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 border border-slate-50 transition-all duration-500"
+      onClick={onEdit}
     >
-      <div className="flex justify-between items-start">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-              project.classification === 'Clientes' ? 'bg-orange-50 text-orange-600' : 
-              project.classification === 'Interno' ? 'bg-blue-50 text-blue-600' : 
-              project.classification === 'Demo' ? 'bg-purple-50 text-purple-600' : 
-              'bg-emerald-50 text-emerald-600'
-            }`}>
-              {project.classification}
-            </span>
-            <div className={`w-2 h-2 rounded-full ${
-              project.status === 'Activo' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 
-              project.status === 'Pausado' ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.4)]' : 
-              'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]'
-            }`} />
+      {project.imageUrl && (
+        <div className="relative h-48 w-full overflow-hidden">
+          <img 
+            src={project.imageUrl} 
+            alt={project.name} 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+        </div>
+      )}
+      <div className="p-8 space-y-8">
+        <div className="flex justify-between items-start">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+                project.classification === 'Clientes' ? 'bg-orange-50 text-orange-600' : 
+                project.classification === 'Interno' ? 'bg-blue-50 text-blue-600' : 
+                project.classification === 'Demo' ? 'bg-purple-50 text-purple-600' : 
+                'bg-emerald-50 text-emerald-600'
+              }`}>
+                {project.classification}
+              </span>
+              <div className={`w-2 h-2 rounded-full ${
+                project.status === 'Activo' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 
+                project.status === 'Pausado' ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.4)]' : 
+                'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]'
+              }`} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{project.name}</h3>
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{project.name}</h3>
+          <button 
+            onClick={(e) => { e.stopPropagation(); onEdit(); }}
+            className="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
         </div>
-        <button 
-          onClick={(e) => { e.stopPropagation(); onEdit(); }}
-          className="p-2 bg-slate-50 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
-        >
-          <MoreHorizontal className="w-5 h-5" />
-        </button>
-      </div>
 
-      <div className="space-y-4">
-        <p className="text-xs text-slate-400 font-medium tracking-wide uppercase">Stack Conectado</p>
-        <div className="flex flex-wrap gap-2">
-           <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
-              <Github className="w-4 h-4" />
-              <span className="text-xs font-semibold">Repositorio</span>
-           </a>
-           {project.vercelAccount && (
-             <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
-               <Zap className="w-4 h-4 text-orange-400" />
-               <span className="text-xs font-semibold">Vercel</span>
-             </div>
-           )}
-           {project.supabaseProject && (
-             <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
-               <Database className="w-4 h-4 text-emerald-400" />
-               <span className="text-xs font-semibold">Base de Datos</span>
-             </div>
-           )}
+        <div className="space-y-4">
+          <p className="text-xs text-slate-400 font-medium tracking-wide uppercase">Stack Conectado</p>
+          <div className="flex flex-wrap gap-2">
+             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors" onClick={e => e.stopPropagation()}>
+                <Github className="w-4 h-4" />
+                <span className="text-xs font-semibold">Repositorio</span>
+             </a>
+             {project.vercelAccount && (
+               <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
+                 <Zap className="w-4 h-4 text-orange-400" />
+                 <span className="text-xs font-semibold">Vercel</span>
+               </div>
+             )}
+             {project.supabaseProject && (
+               <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl text-slate-600">
+                 <Database className="w-4 h-4 text-emerald-400" />
+                 <span className="text-xs font-semibold">Base de Datos</span>
+               </div>
+             )}
+          </div>
         </div>
-      </div>
 
-      <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
-         <div className="flex items-center gap-2 text-slate-300 group-hover:text-indigo-400 transition-colors">
-            <ShieldCheck className="w-4 h-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Encriptado de Extremo a Extremo</span>
-         </div>
-         <button 
-            onClick={onEdit}
-            className="text-xs font-bold text-indigo-600 px-4 py-2 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-colors"
-         >
-           Ver Identidad
-         </button>
+        <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
+           <div className="flex items-center gap-2 text-slate-300 group-hover:text-indigo-400 transition-colors">
+              <ShieldCheck className="w-4 h-4" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Encriptado de Extremo a Extremo</span>
+           </div>
+           <button 
+              onClick={(e) => { e.stopPropagation(); onEdit(); }}
+              className="text-xs font-bold text-indigo-600 px-4 py-2 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-colors"
+           >
+             Ver Identidad
+           </button>
+        </div>
       </div>
     </motion.div>
   );

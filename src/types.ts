@@ -13,6 +13,7 @@ export interface Project {
   classification: 'Clientes' | 'Interno' | 'Demo' | 'Personal';
   credentials: string; // AES Encrypted
   status: 'Activo' | 'Inactivo' | 'Pausado';
+  imageUrl?: string;
   ownerId: string;
   createdAt: string;
   updatedAt: string;

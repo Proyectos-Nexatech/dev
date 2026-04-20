@@ -138,6 +138,16 @@ export default function ProjectModal({ project, projects, masterKey, onClose, on
                   placeholder="https://github.com/..."
                 />
               </InputGroup>
+
+              <InputGroup label="Imagen del Proyecto (Vista Previa)">
+                <input
+                  type="url"
+                  value={formData.imageUrl}
+                  onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  placeholder="https://images.unsplash.com/..."
+                />
+              </InputGroup>
             </div>
 
             {/* Cloud & Credentials */}
