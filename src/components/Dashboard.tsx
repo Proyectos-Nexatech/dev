@@ -180,7 +180,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col md:flex-row h-full md:h-[280px]"
+      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-md hover:shadow-2xl hover:shadow-blue-500/10 border border-[var(--border-subtle)] hover:border-[var(--accent)] transition-all duration-500 flex flex-col md:flex-row h-full md:h-[280px]"
       onClick={onEdit}
     >
       <div className="relative w-full md:w-5/12 h-48 md:h-full overflow-hidden bg-[var(--bg-app)]">

@@ -12,9 +12,9 @@
   --bg-card: #ffffff;
   --text-main: #0f172a;
   --text-muted: #64748b;
-  --border-subtle: #f1f5f9;
+  --border-subtle: #d1d5db; /* Más contraste */
   --glass-bg: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
