@@ -48,7 +48,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
         </div>
         <button 
           onClick={onAddProject}
-          className="inline-flex items-center gap-2 bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 rounded-2xl font-bold hover:brightness-110 transition-all shadow-lg shadow-yellow-500/10 active:scale-95"
+          className="inline-flex items-center gap-2 bg-[var(--accent)] text-[var(--accent-foreground)] px-6 py-3 rounded-2xl font-bold hover:brightness-110 transition-all shadow-lg shadow-blue-500/10 active:scale-95"
         >
           <Plus className="w-5 h-5" />
           Agregar Proyecto
@@ -105,7 +105,7 @@ export default function Dashboard({ projects, onAddProject, onEditProject }: Das
         <motion.div 
           layout
           className={viewMode === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20"
+            ? "grid grid-cols-1 lg:grid-cols-2 gap-8 pb-20"
             : "flex flex-col gap-4 pb-20"
           }
         >
@@ -180,10 +180,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-yellow-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col"
+      className="bg-[var(--bg-card)] rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 border border-[var(--border-subtle)] transition-all duration-500 flex flex-col md:flex-row h-full md:h-[280px]"
       onClick={onEdit}
     >
-      <div className="relative h-48 w-full overflow-hidden bg-[var(--bg-app)]">
+      <div className="relative w-full md:w-5/12 h-48 md:h-full overflow-hidden bg-[var(--bg-app)]">
         {project.imageUrl ? (
           <>
             <img 
@@ -204,7 +204,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
         <div className="absolute top-4 right-4 px-3 py-1.5 bg-[var(--bg-card)]/90 backdrop-blur-md rounded-full shadow-sm flex items-center gap-2 border border-white/10">
           <div className={`w-1.5 h-1.5 rounded-full ${
             project.status === 'Activo' ? 'bg-green-500' : 
-            project.status === 'Pausado' ? 'bg-yellow-500' : 
+            project.status === 'Pausado' ? 'bg-blue-400' : 
             'bg-red-500'
           }`} />
           <span className="text-[9px] font-bold text-[var(--text-main)] uppercase tracking-wider">{project.status}</span>
@@ -237,35 +237,35 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
         <div className="space-y-4">
           <p className="text-xs text-[var(--text-muted)] font-medium tracking-wide uppercase">Stack Conectado</p>
           <div className="flex flex-wrap gap-2">
-             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors" onClick={e => e.stopPropagation()}>
-                <Github className="w-4 h-4" />
-                <span className="text-xs font-semibold">Repositorio</span>
+             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors" onClick={e => e.stopPropagation()}>
+                <Github className="w-3.5 h-3.5" />
+                <span className="text-[10px] font-semibold">Repo</span>
              </a>
              {project.vercelAccount && (
-               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)]">
-                 <Zap className="w-4 h-4 text-orange-400" />
-                 <span className="text-xs font-semibold">Vercel</span>
+               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)]">
+                 <Zap className="w-3.5 h-3.5 text-blue-400" />
+                 <span className="text-[10px] font-semibold">Vercel</span>
                </div>
              )}
              {project.supabaseProject && (
-               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-4 py-2 rounded-xl text-[var(--text-main)]">
-                 <Database className="w-4 h-4 text-emerald-400" />
-                 <span className="text-xs font-semibold">DB</span>
+               <div className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)]">
+                 <Database className="w-3.5 h-3.5 text-blue-400" />
+                 <span className="text-[10px] font-semibold">DB</span>
                </div>
              )}
           </div>
         </div>
 
-        <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
-           <div className="flex items-center gap-2 text-slate-300 group-hover:text-indigo-400 transition-colors">
+        <div className="pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between mt-auto">
+           <div className="flex items-center gap-2 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors">
               <ShieldCheck className="w-4 h-4" />
-              <span className="text-[10px] font-bold uppercase tracking-widest">Encriptado de Extremo a Extremo</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Cifrado AES-256</span>
            </div>
            <button 
               onClick={(e) => { e.stopPropagation(); onEdit(); }}
-              className="text-xs font-bold text-indigo-600 px-4 py-2 bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-colors"
+              className="text-xs font-bold text-[var(--accent)] px-4 py-2 bg-[var(--accent)]/10 rounded-xl hover:bg-[var(--accent)]/20 transition-colors"
            >
-             Ver Identidad
+             Ver Detalles
            </button>
         </div>
       </div>
