@@ -40,6 +40,7 @@ export default function App() {
     try {
       const res = await fetch('/api/projects');
       const data = await res.json();
+      console.log('Proyectos recibidos:', data);
       setProjects(data);
     } catch (e) {
       console.error('Fetch error:', e);
