@@ -179,20 +179,38 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 border border-slate-50 transition-all duration-500"
+      className="bg-white rounded-[32px] overflow-hidden group shadow-sm hover:shadow-2xl hover:shadow-indigo-100/50 border border-slate-50 transition-all duration-500 flex flex-col"
       onClick={onEdit}
     >
-      {project.imageUrl && (
-        <div className="relative h-48 w-full overflow-hidden">
-          <img 
-            src={project.imageUrl} 
-            alt={project.name} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+      <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+        {project.imageUrl ? (
+          <>
+            <img 
+              src={project.imageUrl} 
+              alt={project.name} 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          </>
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 text-slate-300">
+            <LayoutGrid className="w-12 h-12 mb-2 opacity-20" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">Sin Vista Previa</span>
+          </div>
+        )}
+        
+        {/* Floating status indicator over image */}
+        <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-sm flex items-center gap-2 border border-white/20">
+          <div className={`w-1.5 h-1.5 rounded-full ${
+            project.status === 'Activo' ? 'bg-green-500' : 
+            project.status === 'Pausado' ? 'bg-yellow-500' : 
+            'bg-red-500'
+          }`} />
+          <span className="text-[9px] font-bold text-slate-600 uppercase tracking-wider">{project.status}</span>
         </div>
-      )}
-      <div className="p-8 space-y-8">
+      </div>
+
+      <div className="p-8 space-y-8 flex-1 flex flex-col">
         <div className="flex justify-between items-start">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
@@ -204,11 +222,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
               }`}>
                 {project.classification}
               </span>
-              <div className={`w-2 h-2 rounded-full ${
-                project.status === 'Activo' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 
-                project.status === 'Pausado' ? 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.4)]' : 
-                'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]'
-              }`} />
             </div>
             <h3 className="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{project.name}</h3>
           </div>
