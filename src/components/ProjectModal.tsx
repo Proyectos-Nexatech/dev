@@ -1,0 +1,248 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { X, Shield, Lock, Eye, EyeOff, Key } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Project, DecryptedCredentials } from '../types';
+import { encryptData, decryptData } from '../lib/encryption';
+
+interface ProjectModalProps {
+  project: Partial<Project> | null;
+  projects: Project[];
+  masterKey: string;
+  onClose: () => void;
+  onSave: (data: Partial<Project>) => void;
+}
+
+export default function ProjectModal({ project, projects, masterKey, onClose, onSave }: ProjectModalProps) {
+  const [formData, setFormData] = useState<Partial<Project>>({
+    name: '',
+    githubAccount: '',
+    githubRepoUrl: '',
+    vercelAccount: '',
+    supabaseProject: '',
+    classification: 'Personal',
+    status: 'Activo',
+    ...(project || {})
+  });
+
+  // Extract unique existing accounts for the dropdown
+  const existingAccounts = Array.from(new Set(projects.map(p => p.githubAccount).filter(Boolean)));
+
+  const [creds, setCreds] = useState<DecryptedCredentials>({
+    email: '',
+    password: '',
+    notes: ''
+  });
+
+  const [showCreds, setShowCreds] = useState(false);
+
+  useEffect(() => {
+    if (project?.credentials && masterKey) {
+      const decrypted = decryptData(project.credentials, masterKey);
+      if (decrypted) {
+        try {
+          setCreds(JSON.parse(decrypted));
+        } catch (e) {
+          console.error("Failed to parse credentials", e);
+        }
+      }
+    }
+  }, [project, masterKey]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const encryptedCreds = encryptData(JSON.stringify(creds), masterKey);
+    onSave({
+      ...formData,
+      credentials: encryptedCreds
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden"
+      >
+        <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-100">
+              <Key className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">{project?.id ? 'Editar Identidad' : 'Nueva Entrada de Identidad'}</h2>
+              <p className="text-sm text-slate-500 font-medium">Configura los metadatos del proyecto y los secretos de la bóveda.</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 bg-white rounded-xl text-slate-400 hover:text-slate-900 transition-all shadow-sm">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-10 space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* Project Details */}
+            <div className="space-y-6">
+              <InputGroup label="Nombre del Proyecto">
+                <input
+                  required
+                  value={formData.name}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  placeholder="ej. Nexa Core API"
+                />
+              </InputGroup>
+
+              <InputGroup label="Clasificación">
+                <select
+                  required
+                  value={formData.classification}
+                  onChange={e => setFormData({ ...formData, classification: e.target.value as any })}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all cursor-pointer"
+                >
+                  <option value="Clientes">Clientes</option>
+                  <option value="Interno">Interno</option>
+                  <option value="Demo">Demo</option>
+                  <option value="Personal">Personal</option>
+                </select>
+              </InputGroup>
+
+              <InputGroup label="Asociación de GitHub">
+                <input
+                  required
+                  list="github-accounts"
+                  value={formData.githubAccount}
+                  onChange={e => setFormData({ ...formData, githubAccount: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  placeholder="Selecciona o escribe un correo..."
+                />
+                <datalist id="github-accounts">
+                  {existingAccounts.map(account => (
+                    <option key={account} value={account} />
+                  ))}
+                </datalist>
+              </InputGroup>
+
+              <InputGroup label="URL del Repositorio">
+                <input
+                  type="url"
+                  required
+                  value={formData.githubRepoUrl}
+                  onChange={e => setFormData({ ...formData, githubRepoUrl: e.target.value })}
+                  className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                  placeholder="https://github.com/..."
+                />
+              </InputGroup>
+            </div>
+
+            {/* Cloud & Credentials */}
+            <div className="space-y-6">
+               <InputGroup label="Identificadores de Plataforma">
+                  <div className="space-y-3">
+                    <input
+                      value={formData.vercelAccount}
+                      onChange={e => setFormData({ ...formData, vercelAccount: e.target.value })}
+                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                      placeholder="Enlace Público de Vercel"
+                    />
+                    <input
+                      value={formData.supabaseProject}
+                      onChange={e => setFormData({ ...formData, supabaseProject: e.target.value })}
+                      className="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm font-semibold focus:ring-2 ring-indigo-500 transition-all"
+                      placeholder="Correo de Supabase (Cuenta)"
+                    />
+                  </div>
+               </InputGroup>
+
+              <div className="bg-slate-900 rounded-3xl p-6 space-y-4 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-indigo-400" />
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Bóveda Segura</span>
+                  </div>
+                  <button type="button" onClick={() => setShowCreds(!showCreds)} className="text-slate-500 hover:text-white transition-colors">
+                    {showCreds ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  <input
+                    type={showCreds ? "text" : "password"}
+                    value={creds.email}
+                    onChange={e => setCreds({ ...creds, email: e.target.value })}
+                    className="w-full bg-white/5 border-none rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-700 focus:ring-1 ring-indigo-500/50"
+                    placeholder="CORREO DE PRUEBA"
+                  />
+                  <input
+                    type={showCreds ? "text" : "password"}
+                    value={creds.password}
+                    onChange={e => setCreds({ ...creds, password: e.target.value })}
+                    className="w-full bg-white/5 border-none rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-700 focus:ring-1 ring-indigo-500/50"
+                    placeholder="CONTRASEÑA DE PRUEBA"
+                  />
+                  <textarea
+                    value={creds.notes}
+                    onChange={e => setCreds({ ...creds, notes: e.target.value })}
+                    className="w-full bg-white/5 border-none rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-700 focus:ring-1 ring-indigo-500/50 h-20 resize-none"
+                    placeholder="NOTAS DE SEGURIDAD..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-slate-50 flex justify-end gap-3 items-center">
+            <div className="flex items-center gap-4 mr-auto p-2 px-4 bg-slate-50 rounded-2xl border border-slate-100/50">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estado de Identidad</span>
+                <div className="flex items-center gap-3">
+                  <div className={`w-3 h-3 rounded-full shadow-sm animate-pulse ${
+                    formData.status === 'Activo' ? 'bg-green-500 shadow-green-200' : 
+                    formData.status === 'Pausado' ? 'bg-yellow-500 shadow-yellow-200' : 
+                    'bg-red-500 shadow-red-200'
+                  }`} />
+                  <select
+                    value={formData.status}
+                    onChange={e => setFormData({ ...formData, status: e.target.value as any })}
+                    className="bg-transparent border-none p-0 text-[11px] font-bold text-slate-600 uppercase tracking-widest focus:ring-0 cursor-pointer"
+                  >
+                    <option value="Activo">Activo</option>
+                    <option value="Pausado">Pausado</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-3 text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors"
+            >
+              Descartar
+            </button>
+            <button
+              type="submit"
+              className="px-10 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95"
+            >
+              Confirmar Cambios
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
+function InputGroup({ label, children }: { label: string, children: React.ReactNode }) {
+  return (
+    <div className="space-y-2">
+      <label className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">{label}</label>
+      {children}
+    </div>
+  );
+}

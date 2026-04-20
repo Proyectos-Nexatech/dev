@@ -1,0 +1,6 @@
+{
+  "name": "Nexa Identity Dashboard",
+  "description": "Internal project tracker to manage GitHub accounts, Vercel projects, and Supabase instances effortlessly.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
