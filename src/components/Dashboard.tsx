@@ -226,21 +226,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, viewMode, onEdit }) 
             </div>
             <h3 className="text-2xl font-bold text-[var(--text-main)] group-hover:text-[var(--accent)] transition-colors">{project.name}</h3>
           </div>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onEdit(); }}
-            className="p-2 bg-[var(--bg-app)] rounded-xl text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/10 transition-all"
-          >
-            <MoreHorizontal className="w-5 h-5" />
-          </button>
         </div>
 
         <div className="space-y-4">
           <p className="text-xs text-[var(--text-muted)] font-medium tracking-wide uppercase">Stack Conectado</p>
           <div className="flex flex-wrap gap-2">
-             <a href={project.githubRepoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)] hover:bg-[var(--border-subtle)] transition-colors" onClick={e => e.stopPropagation()}>
+             <div className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)]">
                 <Github className="w-3.5 h-3.5" />
                 <span className="text-[10px] font-semibold">Repo</span>
-             </a>
+             </div>
              {project.vercelAccount && (
                <div className="flex items-center gap-2 bg-[var(--bg-app)] px-3 py-1.5 rounded-lg text-[var(--text-main)]">
                  <Zap className="w-3.5 h-3.5 text-blue-400" />
